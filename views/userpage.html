@@ -1,12 +1,15 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <h3>{{render.title}} <small> (<a href="{{render.urlTitle}}/similar">Similar</a>)</small></h3>
+  <h3>User: {{user.name.first}} {{user.name.last}}<small> (<a href="{{render.urlTitle}}/similar">Similar</a>)</small></h3>
   {{tags}}
   <hr>
-  {{render.firstName}} {{render.lastName}}
   <div class="page-body">{{render.content}}</div>
-  <p>Page author: <a href="/users/">{{authorFirst}} {{authorLast}}</a></p>
+  <p>Email: {{user.email}}</p>
+  <p>This user has authored the following pages: </p>
+  {% for page in pages %}
+  <p>{{page | pageLink}}</p>
+  {% endfor %}
   <a href="{{render.urlTitle}}/edit" class="btn btn-primary">edit this page</a>
   <a href="{{render.urlTitle}}/delete" class="btn btn-danger">delete this page</a>
 {% endblock %}

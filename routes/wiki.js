@@ -10,7 +10,7 @@ router.get('/',function(req, res, next)
   Page.find({}).exec()
   .then(function(pages)
   {
-    res.render('index', {pages: pages})
+    res.render('index', {pages: pages, pagetitle: 'Wikipedia'});
   })
   .catch(res.send);
 });
@@ -23,10 +23,10 @@ router.get('/add', function(req, res, next)
 router.get('/:urlTitle', function(req, res, next)
 {
   var urlTitle = req.params.urlTitle;
-  Page.findOne({urlTitle: urlTitle}).exec()
+  Page.findOne({urlTitle: urlTitle}).populate('author').exec()
   .then(function(page)
   { console.log(page);
-    res.render('wikipage', {render:page});
+    res.render('wikipage', {render:page, authorFirst: page.author.name.first, authorLast: page.author.name.last});
   })
   .catch(next);
 });
